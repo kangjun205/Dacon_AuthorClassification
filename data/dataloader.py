@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from datasets import TextDataset
+from .datasets import TextDataset
 
 def get_dataloader(texts, labels, tokenizer, max_len, batch_size, shuffle=True):
     """_summary_
