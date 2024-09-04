@@ -8,6 +8,9 @@ def get_tokenizer():
 def get_tokenizer_deberta():
     return AutoTokenizer.from_pretrained("mrm8488/deberta-v3-small-finetuned-cola")
 
+def get_tokenizer_roberta():
+    return AutoTokenizer.from_pretrained("xlm-roberta-base")
+
 def get_vocab_size(tokenizer):
     return len(tokenizer.vocab)
 
