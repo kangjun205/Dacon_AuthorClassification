@@ -39,6 +39,9 @@ class XLMRobertaForMultiClassClassification(nn.Module):
         self.roberta = AutoModel.from_pretrained("xlm-roberta-base")
         self.classifier = nn.Linear(self.roberta.config.hidden_size, num_labels)
 
+        for param in self.roberta.parameters():
+            param.requires_grad = False
+
     def forward(self, input_ids, attention_mask):
         outputs = self.roberta(input_ids=input_ids, attention_mask=attention_mask)
         last_hidden_state = outputs.last_hidden_state
