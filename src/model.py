@@ -1,5 +1,6 @@
 import torch.nn as nn
 from transformers import BertModel
+from transformers import AutoModel
 from transformers import AutoModelForSequenceClassification
 
 class BertForMultiLabelClassification(nn.Module):
@@ -31,3 +32,16 @@ class DebertaForMultiLabelClassification(nn.Module):
     def forward(self, input_ids, attention_mask):
         outputs = self.deberta(input_ids=input_ids, attention_mask=attention_mask)
         return outputs.logits
+
+class XLMRobertaForMultiClassClassification(nn.Module):
+    def __init__(self, num_labels):
+        super(XLMRobertaForMultiClassClassification, self).__init__()
+        self.roberta = AutoModel.from_pretrained("xlm-roberta-base")
+        self.classifier = nn.Linear(self.roberta.config.hidden_size, num_labels)
+
+    def forward(self, input_ids, attention_mask):
+        outputs = self.roberta(input_ids=input_ids, attention_mask=attention_mask)
+        last_hidden_state = outputs.last_hidden_state
+        cls_output = last_hidden_state[:, 0, :]
+        cls_output = self.classifier(cls_output)
+        return cls_output
